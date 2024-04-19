@@ -1,48 +1,69 @@
-import React, { useEffect, useState } from 'react';
+// Insights.js
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import TaskModal from './TaskModal';
+import { AnimatePresence } from 'framer-motion';
+import ManageMembersModal from './ManageMembersModal';
 
 const Insights = () => {
-  // Get the repository name from the URL parameter
   const { reponame } = useParams();
+  const [tasks, setTasks] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+ // Sample member data
+ const [members, setMembers] = useState([
+    { name: 'John Doe', email: 'john@example.com', position: 'Member' },
+    { name: 'Jane Smith', email: 'jane@example.com', position: 'Moderator' },
+    // Add more members as needed
+  ]);
 
-  // State to store insights data
-  const [insights, setInsights] = useState(null);
+  // State to manage modal visibility
+  const [isMembersModalOpen, setIsMembersModalOpen] = useState(false);
 
-  // Fetch insights data when the component mounts
-  useEffect(() => {
-    // Dummy implementation: Fetch insights data based on the repository name
-    // Replace this with your actual logic to fetch insights data from an API or database
-    const fetchInsightsData = async () => {
-      // Dummy data for demonstration purposes
-      const dummyInsights = {
-        commits: 100,
-        contributors: 10,
-        lastCommitDate: '2024-04-15',
-        // Add more insights data as needed
-      };
+  const handleOpenMembersModal = () => {
+    setIsMembersModalOpen(true);
+  };
 
-      // Set the insights data to state
-      setInsights(dummyInsights);
-    };
+  const handleCloseMembersModal = () => {
+    setIsMembersModalOpen(false);
+  };
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
 
-    fetchInsightsData();
-  }, [reponame]); // Fetch data when the repository name changes
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
-  // Render loading message if insights data is being fetched
-  if (!insights) {
-    return <div>Loading insights...</div>;
-  }
+  const handleTaskSubmit = (task) => {
+    setTasks([...tasks, task]);
+    handleCloseModal();
+  };
 
-  // Render insights data
   return (
     <div>
-      <h2>Insights for {reponame}</h2>
-      <p>Number of Commits: {insights.commits}</p>
-      <p>Number of Contributors: {insights.contributors}</p>
-      <p>Last Commit Date: {insights.lastCommitDate}</p>
-      <p>Set task</p>
-      <p>manage members</p>
-      {/* Add more insights data as needed */}
+      <h2 className='text-4xl font-bold'>Insights for {reponame}</h2>
+      <button className='p-2 text-xl bg-orange-400 rounded-md my-7' onClick={handleOpenModal}>Set Task</button>
+      <button onClick={handleOpenMembersModal}>Manage Members</button>
+
+      <div>
+        <h3 className='text-4xl font-bold'>Tasks</h3>
+        {tasks.map((task, index) => (
+          <div key={index}>
+            <p>Task: {task.taskName}</p>
+            <p>Deadline: {task.deadline}</p>
+            <p>Description: {task.description}</p>
+            {/* Add status and instructions for each task */}
+          </div>
+        ))}
+      </div>
+      {/* Manage Members Modal */}
+      <AnimatePresence>
+        {isMembersModalOpen && (
+          <ManageMembersModal onClose={handleCloseMembersModal} members={members} />
+        )}
+      </AnimatePresence>
+
+      {isModalOpen && <TaskModal onClose={handleCloseModal} onSubmit={handleTaskSubmit} />}
     </div>
   );
 };

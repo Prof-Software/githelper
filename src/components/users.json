@@ -1,0 +1,47 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "name": "User1",
+        "email": "user1@example.com",
+        "password": "password1",
+        "position": "owner"
+      },
+      {
+        "id": 2,
+        "name": "User2",
+        "email": "user2@example.com",
+        "password": "password2",
+        "position": "member"
+      },
+      {
+        "id": 3,
+        "name": "User3",
+        "email": "user3@example.com",
+        "password": "password3",
+        "position": "member"
+      },
+      {
+        "id": 4,
+        "name": "User4",
+        "email": "user4@example.com",
+        "password": "password4",
+        "position": "member"
+      },
+      {
+        "id": 5,
+        "name": "User5",
+        "email": "user5@example.com",
+        "password": "password5",
+        "position": "moderator"
+      },
+      {
+        "id": 6,
+        "name": "User6",
+        "email": "user6@example.com",
+        "password": "password6",
+        "position": "member"
+      }
+    ]
+  }
+  

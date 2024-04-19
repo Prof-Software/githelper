@@ -1,30 +1,31 @@
+// Login.js
 import React, { useState } from 'react';
+import { useHistory, useNavigate } from 'react-router-dom';
+import usersData from './users.json'; // Import user data
 
 const Login = () => {
   // State to manage the input values
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  // History hook to redirect after successful login
+  const history = useNavigate();
 
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!username || !password) {
-      setError('Please enter both username and password.');
-      return;
-    }
+    // Find user with matching email and password
+    const user = usersData.users.find(u => u.email === email && u.password === password);
 
-    // Simulate authentication (replace with your actual authentication logic)
-    // For demonstration, let's assume any non-empty username and password combination is valid
-    if (username && password) {
+    if (user) {
       // Store the user in localStorage
-      localStorage.setItem('user', JSON.stringify({ username }));
-      // Redirect to home page or perform any other action
-      window.location.href = '/';
+      localStorage.setItem('user', JSON.stringify(user));
+      // Redirect to home page
+       history('/');
     } else {
-      setError('Invalid username or password.');
+      setError('Invalid email or password.');
     }
   };
 
@@ -34,8 +35,8 @@ const Login = () => {
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <label>Email:</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div>
           <label>Password:</label>
