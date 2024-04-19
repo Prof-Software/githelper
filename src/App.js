@@ -18,7 +18,7 @@ const App = () => {
         <Route exact path="/" element={userExists ? <Home /> : <Navigate to="/login" />} />
         <Route exact path="/login" element={<Login />} />
         {/* Route to Insights component with dynamic username */}
-        <Route exact path={`/${username}/insights/:reponame`} element={<Insights />} />
+        <Route exact path={`/username/insights/:reponame`} element={<Insights />} />
       </Routes>
     </Router>
   );
